@@ -14,13 +14,110 @@ if (navToggle && navMenu) {
 navToggle.addEventListener('click', () => {
 navMenu.classList.toggle('open');
 });
+}
 
-document.querySelectorAll('.pill-nav-menu a[href^="#"]').forEach((link) => {
-link.addEventListener('click', () => {
-navMenu.classList.remove('open');
-});
+// Sound toggle (persisted preference)
+const soundToggle = document.getElementById('soundToggle');
+let soundEnabled = localStorage.getItem('portfolioSound') !== 'off';
+function updateSoundIcon() {
+if (!soundToggle) return;
+const icon = soundToggle.querySelector('.sound-icon');
+if (icon) icon.textContent = soundEnabled ? '\u{1F50A}' : '\u{1F507}';
+soundToggle.setAttribute('aria-pressed', String(soundEnabled));
+}
+updateSoundIcon();
+if (soundToggle) {
+soundToggle.addEventListener('click', () => {
+soundEnabled = !soundEnabled;
+localStorage.setItem('portfolioSound', soundEnabled ? 'on' : 'off');
+updateSoundIcon();
 });
 }
+
+// Synthesized section-transition sound (Web Audio API, no external audio file)
+function playTransitionSound() {
+if (!soundEnabled) return;
+try {
+const Ctx = window.AudioContext || window.webkitAudioContext;
+if (!Ctx) return;
+const ctx = window.__portfolioAudioCtx || (window.__portfolioAudioCtx = new Ctx());
+if (ctx.state === 'suspended') ctx.resume();
+const now = ctx.currentTime;
+
+const osc = ctx.createOscillator();
+const gain = ctx.createGain();
+osc.type = 'sine';
+osc.frequency.setValueAtTime(220, now);
+osc.frequency.exponentialRampToValueAtTime(920, now + 0.16);
+osc.frequency.exponentialRampToValueAtTime(150, now + 0.4);
+gain.gain.setValueAtTime(0.0001, now);
+gain.gain.exponentialRampToValueAtTime(0.22, now + 0.04);
+gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.44);
+osc.connect(gain).connect(ctx.destination);
+osc.start(now);
+osc.stop(now + 0.46);
+
+const tick = ctx.createOscillator();
+const tickGain = ctx.createGain();
+tick.type = 'triangle';
+tick.frequency.setValueAtTime(1400, now);
+tickGain.gain.setValueAtTime(0.09, now);
+tickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+tick.connect(tickGain).connect(ctx.destination);
+tick.start(now);
+tick.stop(now + 0.12);
+} catch (err) {
+/* Audio not available — fail silently */
+}
+}
+
+// Curtain-wipe transition overlay driven by the Web Animations API
+const transitionOverlay = document.getElementById('transitionOverlay');
+function runSectionTransition(onCovered) {
+if (!transitionOverlay) { onCovered(); return; }
+const bars = transitionOverlay.querySelectorAll('span');
+const stepIn = 60;
+const stepOut = 50;
+const durIn = 380;
+const durOut = 380;
+bars.forEach((bar, i) => {
+bar.style.transformOrigin = 'top';
+bar.animate(
+[{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }],
+{ duration: durIn, delay: i * stepIn, easing: 'cubic-bezier(0.77,0,0.18,1)', fill: 'forwards' }
+);
+});
+const revealDelay = durIn + (bars.length - 1) * stepIn + 40;
+setTimeout(() => {
+onCovered();
+bars.forEach((bar, i) => {
+bar.style.transformOrigin = 'bottom';
+bar.animate(
+[{ transform: 'scaleY(1)' }, { transform: 'scaleY(0)' }],
+{ duration: durOut, delay: i * stepOut, easing: 'cubic-bezier(0.77,0,0.18,1)', fill: 'forwards' }
+);
+});
+}, revealDelay);
+}
+
+// Nav link clicks: sound + curtain transition + scroll + arrival flash
+document.querySelectorAll('.pill-nav-menu a[href^="#"], .pill-nav-name[href^="#"]').forEach((link) => {
+link.addEventListener('click', (e) => {
+const targetId = link.getAttribute('href');
+const targetEl = document.querySelector(targetId);
+if (!targetEl) return;
+e.preventDefault();
+if (navMenu) navMenu.classList.remove('open');
+playTransitionSound();
+runSectionTransition(() => {
+targetEl.scrollIntoView({ behavior: 'auto', block: 'start' });
+targetEl.classList.remove('section-flash');
+void targetEl.offsetWidth;
+targetEl.classList.add('section-flash');
+setTimeout(() => targetEl.classList.remove('section-flash'), 900);
+});
+});
+});
 
 // Split hero tagline into words for cascading entrance animation
 function splitWords(el) {
@@ -206,8 +303,8 @@ if (cursorGlow) cursorGlow.classList.remove('cursor-glow--active');
 });
 });
 
-// 3D tilt effect on service, project and skill cards
-document.querySelectorAll('.project-card, .service-card, .skill-category').forEach((card) => {
+// 3D tilt effect on service, project, skill and social cards
+document.querySelectorAll('.project-card, .service-card, .skill-category, .github-card, .linkedin-card, .repo-chip').forEach((card) => {
 card.addEventListener('mousemove', (e) => {
 const rect = card.getBoundingClientRect();
 const x = e.clientX - rect.left;
