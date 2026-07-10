@@ -16,10 +16,16 @@
 <div class="scroll-progress" id="scrollProgress"></div>
 <div class="cursor-glow" id="cursorGlow"></div>
 <div class="cursor-dot" id="cursorDot"></div>
+<div class="transition-overlay" id="transitionOverlay" aria-hidden="true">
+<span></span><span></span><span></span><span></span><span></span>
+</div>
 
 <nav class="pill-nav" id="pillNav">
 <div class="pill-nav-inner">
 <a href="#home" class="pill-nav-name">Anil Kumar</a>
+<button class="pill-nav-sound" id="soundToggle" aria-label="Toggle transition sound" aria-pressed="true">
+<span class="sound-icon" aria-hidden="true">&#128266;</span>
+</button>
 <button class="pill-nav-toggle" id="navToggle" aria-label="Toggle menu">
 <span class="dot"></span><span class="dot"></span><span class="dot"></span>
 </button>
@@ -31,8 +37,8 @@
 <a href="#services">Services</a>
 <a href="#projects">Projects</a>
 <a href="#contact">Contact</a>
-<a href="https://github.com/anilkumardvr" target="_blank" rel="noopener">GitHub</a>
-<a href="https://www.linkedin.com/in/anilkumardevandla/" target="_blank" rel="noopener">LinkedIn</a>
+<a href="#github">GitHub</a>
+<a href="#linkedin">LinkedIn</a>
 </div>
 </nav>
 
@@ -254,6 +260,49 @@
 <button type="submit">Submit</button>
 <p class="form-note" id="formNote"></p>
 </form>
+</section>
+
+<section class="github reveal" id="github">
+<h2 class="section-label">GitHub</h2>
+<div class="github-card">
+<div class="github-card-top">
+<span class="github-icon" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="26" height="26" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+</span>
+<div>
+<h3>@anilkumardvr</h3>
+<p>Shipping infrastructure-as-code, automation scripts, and cloud tooling in the open.</p>
+</div>
+</div>
+<div class="github-repos">
+<a class="repo-chip" href="https://github.com/anilkumardvr/devops-portfolio" target="_blank" rel="noopener">
+<span class="repo-name">devops-portfolio</span>
+<span class="repo-desc">This site &mdash; animated, resume-driven portfolio</span>
+</a>
+<a class="repo-chip" href="https://github.com/anilkumardvr/portfolio" target="_blank" rel="noopener">
+<span class="repo-name">portfolio</span>
+<span class="repo-desc">Earlier portfolio &amp; experiments</span>
+</a>
+<a class="repo-chip" href="https://github.com/anilkumardvr/cpp-api-demo" target="_blank" rel="noopener">
+<span class="repo-name">cpp-api-demo</span>
+<span class="repo-desc">CI/CD &amp; infrastructure automation demo</span>
+</a>
+</div>
+<a class="cta-link github-cta" href="https://github.com/anilkumardvr" target="_blank" rel="noopener">View GitHub Profile <span class="arrow">&#8599;</span></a>
+</div>
+</section>
+
+<section class="linkedin reveal" id="linkedin">
+<h2 class="section-label">LinkedIn</h2>
+<div class="linkedin-card">
+<img class="linkedin-photo" src="assets/profile.jpg" alt="Anil Kumar Devandla" />
+<div class="linkedin-info">
+<h3>Anil Kumar Devandla</h3>
+<p class="linkedin-headline">DevOps / Cloud Engineer &middot; Azure &amp; Kubernetes &middot; Toronto, Canada</p>
+<p class="linkedin-copy">Let&rsquo;s connect &mdash; open to conversations about cloud infrastructure, DevOps culture, and new opportunities.</p>
+<a class="cta-link linkedin-cta" href="https://www.linkedin.com/in/anilkumardevandla/" target="_blank" rel="noopener">Connect on LinkedIn <span class="arrow">&#8599;</span></a>
+</div>
+</div>
 </section>
 
 <footer class="site-footer">
