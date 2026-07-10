@@ -22,6 +22,16 @@ navMenu.classList.remove('open');
 });
 }
 
+// Split hero tagline into words for cascading entrance animation
+function splitWords(el) {
+const text = el.textContent.trim();
+el.innerHTML = text.split(' ').map((w, i) => '<span class="split-word" style="animation-delay:' + (0.9 + i * 0.06) + 's">' + w + '</span>').join(' ');
+}
+const heroTagline = document.querySelector('.hero-tagline');
+if (heroTagline) {
+splitWords(heroTagline);
+}
+
 // Reveal on scroll
 const revealEls = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
@@ -34,13 +44,53 @@ observer.unobserve(entry.target);
 }, { threshold: 0.15 });
 revealEls.forEach((el) => observer.observe(el));
 
-// Scroll progress bar, nav hide/show, hero parallax, active nav link
+// Timeline items stagger in as they enter the viewport
+const timelineItems = document.querySelectorAll('.timeline-item');
+const timelineObserver = new IntersectionObserver((entries) => {
+entries.forEach((entry) => {
+if (entry.isIntersecting) {
+entry.target.classList.add('is-inview');
+}
+});
+}, { threshold: 0.3 });
+timelineItems.forEach((el) => timelineObserver.observe(el));
+
+// Animated stat counters
+function animateCounter(el) {
+const target = parseFloat(el.dataset.target || '0');
+const duration = 1400;
+const start = performance.now();
+function step(now) {
+const p = Math.min((now - start) / duration, 1);
+const eased = 1 - Math.pow(1 - p, 3);
+el.textContent = Math.floor(eased * target);
+if (p < 1) {
+requestAnimationFrame(step);
+} else {
+el.textContent = String(target);
+}
+}
+requestAnimationFrame(step);
+}
+const statObserver = new IntersectionObserver((entries) => {
+entries.forEach((entry) => {
+if (entry.isIntersecting) {
+animateCounter(entry.target);
+statObserver.unobserve(entry.target);
+}
+});
+}, { threshold: 0.6 });
+document.querySelectorAll('.stat-num').forEach((el) => statObserver.observe(el));
+
+// Scroll progress bar, nav hide/show, hero parallax, active nav link, timeline progress
 const progressBar = document.getElementById('scrollProgress');
 const pillNav = document.getElementById('pillNav');
 const heroTitle = document.querySelector('.hero-title');
 const heroMeta = document.querySelector('.hero-meta');
 const sections = document.querySelectorAll('section[id], header[id]');
 const navLinks = document.querySelectorAll('.pill-nav-menu a[href^="#"]');
+const timelineEl = document.querySelector('.timeline');
+const timelineProgress = document.getElementById('timelineProgress');
 
 let lastScroll = window.scrollY;
 
@@ -88,6 +138,15 @@ link.classList.toggle('active', link.getAttribute('href') === '#' + current);
 });
 }
 
+function updateTimelineProgress() {
+if (!timelineEl || !timelineProgress) return;
+const rect = timelineEl.getBoundingClientRect();
+const winH = window.innerHeight;
+const visible = winH * 0.6 - rect.top;
+const pct = Math.min(Math.max(visible / rect.height, 0), 1) * 100;
+timelineProgress.style.height = pct + '%';
+}
+
 let ticking = false;
 window.addEventListener('scroll', () => {
 if (!ticking) {
@@ -96,6 +155,7 @@ updateProgress();
 handleNavScroll();
 handleParallax();
 setActiveLink();
+updateTimelineProgress();
 ticking = false;
 });
 ticking = true;
@@ -105,9 +165,11 @@ ticking = true;
 updateProgress();
 handleParallax();
 setActiveLink();
+updateTimelineProgress();
 
-// Cursor glow follows mouse with easing
+// Cursor glow + cursor dot follow mouse with easing
 const cursorGlow = document.getElementById('cursorGlow');
+const cursorDot = document.getElementById('cursorDot');
 let glowX = window.innerWidth / 2;
 let glowY = window.innerHeight / 2;
 let curX = glowX;
@@ -116,6 +178,9 @@ let curY = glowY;
 window.addEventListener('mousemove', (e) => {
 glowX = e.clientX;
 glowY = e.clientY;
+if (cursorDot) {
+cursorDot.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px) translate(-50%, -50%)';
+}
 });
 
 function animateGlow() {
@@ -131,8 +196,18 @@ if (cursorGlow && window.matchMedia('(pointer: fine)').matches) {
 animateGlow();
 }
 
-// 3D tilt effect on service and project cards
-document.querySelectorAll('.project-card, .service-card').forEach((card) => {
+// Cursor glow grows on hover of interactive elements
+document.querySelectorAll('a, button, .skill-tags span, .marquee-track span').forEach((el) => {
+el.addEventListener('mouseenter', () => {
+if (cursorGlow) cursorGlow.classList.add('cursor-glow--active');
+});
+el.addEventListener('mouseleave', () => {
+if (cursorGlow) cursorGlow.classList.remove('cursor-glow--active');
+});
+});
+
+// 3D tilt effect on service, project and skill cards
+document.querySelectorAll('.project-card, .service-card, .skill-category').forEach((card) => {
 card.addEventListener('mousemove', (e) => {
 const rect = card.getBoundingClientRect();
 const x = e.clientX - rect.left;
@@ -161,9 +236,21 @@ btn.style.transform = '';
 });
 });
 
+// Ripple effect on button and link clicks
+document.querySelectorAll('.contact-form button, .cta-link, .contact-links a').forEach((btn) => {
+btn.addEventListener('click', function (e) {
+const ripple = document.createElement('span');
+ripple.className = 'ripple';
+const rect = this.getBoundingClientRect();
+ripple.style.left = (e.clientX - rect.left) + 'px';
+ripple.style.top = (e.clientY - rect.top) + 'px';
+this.appendChild(ripple);
+setTimeout(() => ripple.remove(), 650);
+});
+});
+
 // Contact form -> mailto
-// TODO: replace the placeholder below with your real email address
-const CONTACT_EMAIL = 'your-email@example.com';
+const CONTACT_EMAIL = 'anilkumardevandla21@gmail.com';
 const form = document.getElementById('contactForm');
 const formNote = document.getElementById('formNote');
 
