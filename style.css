@@ -350,3 +350,77 @@ background: var(--text); transition: width 0.8s ease 0.2s;
 .services.is-visible .section-label::after,
 .projects.is-visible .section-label::after { width: 60px; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+
+/* Sound toggle button */
+.pill-nav-sound {
+background: #fff; border: none; width: 32px; height: 32px; border-radius: 999px;
+display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px;
+flex-shrink: 0; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pill-nav-sound:hover { transform: scale(1.12); }
+.pill-nav-sound[aria-pressed="false"] { opacity: 0.5; }
+
+/* Full-screen curtain wipe transition overlay */
+.transition-overlay {
+position: fixed; inset: 0; z-index: 500; display: flex; pointer-events: none;
+}
+.transition-overlay span {
+flex: 1; background: var(--text); transform: scaleY(0); transform-origin: top;
+}
+
+/* Section arrival flash */
+.section-flash { animation: sectionFlash 0.9s ease; }
+@keyframes sectionFlash {
+0% { transform: scale(1); filter: brightness(1); }
+30% { transform: scale(1.008); filter: brightness(1.05); }
+100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* GitHub & LinkedIn sections */
+.github, .linkedin {
+max-width: 900px; margin: 0 auto; padding: 80px 24px; opacity: 0; transform: translateY(24px);
+transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.github.is-visible, .linkedin.is-visible { opacity: 1; transform: translateY(0); }
+
+.github-card {
+background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+padding: 40px; display: flex; flex-direction: column; gap: 28px;
+transition: transform 0.15s ease, box-shadow 0.3s ease; will-change: transform;
+}
+.github-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+.github-card-top { display: flex; align-items: flex-start; gap: 18px; }
+.github-icon {
+flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; background: var(--text); color: #fff;
+display: flex; align-items: center; justify-content: center;
+}
+.github-card-top h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.github-card-top p { font-size: 15px; color: var(--muted); }
+.github-repos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.repo-chip {
+display: flex; flex-direction: column; gap: 6px; padding: 18px; border-radius: var(--radius-md);
+border: 1px solid var(--border); background: var(--bg);
+transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, box-shadow 0.25s ease;
+}
+.repo-chip:hover { transform: translateY(-4px); background: var(--text); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+.repo-chip:hover .repo-name, .repo-chip:hover .repo-desc { color: #fff; }
+.repo-name { font-size: 14px; font-weight: 700; font-family: Menlo, 'SFMono-Regular', monospace; }
+.repo-desc { font-size: 12px; color: var(--muted); transition: color 0.25s ease; }
+.github-cta { align-self: flex-start; }
+
+.linkedin-card {
+background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px;
+display: flex; align-items: center; gap: 32px;
+transition: transform 0.15s ease, box-shadow 0.3s ease;
+}
+.linkedin-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+.linkedin-photo { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 3px solid var(--bg); }
+.linkedin-info h3 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.linkedin-headline { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 12px; }
+.linkedin-copy { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+
+@media (max-width: 860px) {
+.github-repos { grid-template-columns: 1fr; }
+.linkedin-card { flex-direction: column; text-align: center; }
+}
