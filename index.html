@@ -15,6 +15,7 @@
 <div class="page-loader" id="pageLoader"><span class="loader-mark">ANIL KUMAR</span></div>
 <div class="scroll-progress" id="scrollProgress"></div>
 <div class="cursor-glow" id="cursorGlow"></div>
+<div class="cursor-dot" id="cursorDot"></div>
 
 <nav class="pill-nav" id="pillNav">
 <div class="pill-nav-inner">
@@ -25,6 +26,8 @@
 </div>
 <div class="pill-nav-menu" id="navMenu">
 <a href="#about">About</a>
+<a href="#experience">Experience</a>
+<a href="#skills">Skills</a>
 <a href="#services">Services</a>
 <a href="#projects">Projects</a>
 <a href="#contact">Contact</a>
@@ -34,6 +37,12 @@
 </nav>
 
 <header class="hero" id="home">
+<div class="hero-bg" aria-hidden="true">
+<span class="blob blob-1"></span>
+<span class="blob blob-2"></span>
+<span class="blob blob-3"></span>
+<div class="grid-overlay"></div>
+</div>
 <div class="hero-meta">
 <span class="hero-tag">/ TORONTO, CANADA</span>
 <span class="hero-copyright">&copy;2026</span>
@@ -43,6 +52,7 @@
 <span class="line line-light">CLOUD ENGINEER</span>
 </h1>
 <p class="hero-tagline">Building scalable cloud infrastructure, Kubernetes platforms, and DevOps automation.</p>
+<a href="#about" class="scroll-cue" aria-label="Scroll down"><span></span></a>
 </header>
 
 <section class="about reveal" id="about">
@@ -54,8 +64,9 @@
 <p>I&rsquo;m <strong>Anil Kumar Devandla</strong>, a DevOps / Cloud Engineer based in Toronto, Ontario, Canada.</p>
 </div>
 <div class="about-body">
-<p>I am a DevOps / Cloud Engineer with hands-on experience in Azure, AKS, Kubernetes, CI/CD, infrastructure automation, and cloud migration projects.</p>
+<p>I am a DevOps / Cloud Engineer with 5+ years of experience across Azure, AKS, Kubernetes, CI/CD, infrastructure automation, and cloud migration projects.</p>
 <p>I currently work on building and modernizing cloud-native infrastructure, including middleware deployments, Kubernetes workloads, Azure networking, Key Vault integrations, and production-ready DevOps automation.</p>
+<p>Google Cloud Certified &ndash; Professional Cloud DevOps Engineer. MSc in Agile Project Management, Northeastern University, Toronto.</p>
 <a href="#contact" class="cta-link">Get Started <span class="arrow">&#8599;</span></a>
 </div>
 </div>
@@ -63,6 +74,98 @@
 
 <section class="mission reveal">
 <p><strong>From</strong> code to cloud. Reliable infrastructure and automated systems built to scale, stay secure, and perform in production, driven by clarity, structured pipelines, and operational excellence.</p>
+</section>
+
+<section class="experience reveal" id="experience">
+<h2 class="section-label">Experience</h2>
+<div class="timeline">
+<div class="timeline-line"><div class="timeline-progress" id="timelineProgress"></div></div>
+
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="timeline-date">Sep 2023 &mdash; Present</span>
+<h3>Sr. Azure Cloud Engineer</h3>
+<span class="timeline-company">LTI Mindtree, Mississauga, ON</span>
+<p>Leading end-to-end migration of on-prem Kubernetes workloads to Azure Kubernetes Service (AKS) &mdash; manifest transformation, persistent storage redesign, Calico CNI networking, and pod scheduling strategies aligned with AKS node pools.</p>
+</div>
+</div>
+
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="timeline-date">Feb 2021 &mdash; Aug 2023</span>
+<h3>Azure Cloud Infrastructure Engineer</h3>
+<span class="timeline-company">Master Card, Bengaluru, IN</span>
+<p>Integrated workloads with Azure VNET, Load Balancers, DNS and ingress; secured ConfigMaps, Secrets and RBAC with Azure Key Vault and AAD Pod Identity; built observability with Prometheus, Grafana and Elasticsearch; implemented Velero backup and DR.</p>
+</div>
+</div>
+
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="timeline-date">Oct 2019 &mdash; Feb 2021</span>
+<h3>DevOps Engineer / Azure Engineer</h3>
+<span class="timeline-company">ADP, Chennai, IN</span>
+<p>Administered RHEL and Ubuntu Linux servers and Windows Server / IIS environments; automated cloud storage and backups; monitored web and mobile application infrastructure for performance and uptime.</p>
+</div>
+</div>
+
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="timeline-date">Dec 2017 &mdash; Oct 2019</span>
+<h3>Software Engineer</h3>
+<span class="timeline-company">Gemini Consulting, Odisha, IN</span>
+<p>Administered Linux/Unix servers, configured Nagios monitoring and alerting, implemented AWS infrastructure (EC2, Auto Scaling, load balancing), and maintained system security and compliance.</p>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="skills reveal" id="skills">
+<h2 class="section-label">Skills</h2>
+
+<div class="skills-marquee">
+<div class="marquee-track">
+<span>Kubernetes</span><span>AKS</span><span>Terraform</span><span>Helm</span><span>Docker</span><span>Azure DevOps</span><span>GitHub Actions</span><span>ArgoCD</span><span>Prometheus</span><span>Grafana</span><span>Calico CNI</span><span>Azure Key Vault</span><span>Velero</span><span>PowerShell</span><span>Bash</span>
+<span>Kubernetes</span><span>AKS</span><span>Terraform</span><span>Helm</span><span>Docker</span><span>Azure DevOps</span><span>GitHub Actions</span><span>ArgoCD</span><span>Prometheus</span><span>Grafana</span><span>Calico CNI</span><span>Azure Key Vault</span><span>Velero</span><span>PowerShell</span><span>Bash</span>
+</div>
+</div>
+
+<div class="skills-grid">
+<div class="skill-category">
+<h3>Kubernetes &amp; Containers</h3>
+<div class="skill-tags"><span>Kubernetes</span><span>Docker</span><span>Helm</span><span>Kustomize</span><span>AKS</span></div>
+</div>
+<div class="skill-category">
+<h3>Azure Cloud</h3>
+<div class="skill-tags"><span>VNET</span><span>Load Balancer</span><span>DNS</span><span>Azure Disks</span><span>Azure Files</span><span>Azure AD</span><span>Key Vault</span></div>
+</div>
+<div class="skill-category">
+<h3>Migration &amp; IaC</h3>
+<div class="skill-tags"><span>K8s &rarr; AKS Migration</span><span>YAML Manifests</span><span>PVC Migration</span><span>Terraform</span><span>ARM</span></div>
+</div>
+<div class="skill-category">
+<h3>Networking &amp; Scheduling</h3>
+<div class="skill-tags"><span>Calico CNI</span><span>NetworkPolicies</span><span>IPAM</span><span>Affinity / Anti-Affinity</span><span>Taints &amp; Tolerations</span></div>
+</div>
+<div class="skill-category">
+<h3>Security &amp; Governance</h3>
+<div class="skill-tags"><span>RBAC</span><span>Secrets</span><span>ConfigMaps</span><span>OPA / Gatekeeper</span><span>Velero</span><span>DR Strategy</span></div>
+</div>
+<div class="skill-category">
+<h3>CI/CD &amp; Observability</h3>
+<div class="skill-tags"><span>Azure DevOps</span><span>GitHub Actions</span><span>Jenkins</span><span>ArgoCD</span><span>Prometheus</span><span>Grafana</span><span>Elasticsearch</span></div>
+</div>
+</div>
+
+<div class="stats-row">
+<div class="stat"><span class="stat-num" data-target="5">0</span><span class="stat-suffix">+</span><span class="stat-label">Years Experience</span></div>
+<div class="stat"><span class="stat-num" data-target="4">0</span><span class="stat-suffix"></span><span class="stat-label">Companies</span></div>
+<div class="stat"><span class="stat-num" data-target="1">0</span><span class="stat-suffix"></span><span class="stat-label">Cloud Certification</span></div>
+</div>
 </section>
 
 <section class="services reveal" id="services">
