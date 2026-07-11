@@ -367,7 +367,7 @@ formNote.textContent = 'Opening your email client...';
 }
 
 
-// Highlights carousel — fancy directional slide + fade + scale transitions
+// Highlights carousel — fancy fade + scale + directional slide transitions (fully re-synced each call, cannot get stuck)
 (function () {
 const carousel = document.getElementById('highlightsCarousel');
 if (!carousel) return;
@@ -378,36 +378,26 @@ const nextBtn = document.getElementById('carouselNext');
 let current = 0;
 let autoplayTimer = null;
 
-function updateDots() {
+function render() {
+slides.forEach((slide, i) => {
+if (i === current) {
+slide.classList.add('is-active');
+slide.style.transform = '';
+} else {
+slide.classList.remove('is-active');
+const offset = i > current ? 70 : -70;
+slide.style.transform = 'scale(0.94) translateX(' + offset + 'px)';
+}
+});
 dots.forEach((dot, i) => dot.classList.toggle('is-active', i === current));
 }
 
-function goTo(nextIndex, direction) {
-if (nextIndex === current) return;
-const old = slides[current];
-const next = slides[nextIndex];
-old.classList.remove('is-active');
-old.classList.add(direction === 'next' ? 'exit-left' : 'exit-right');
-next.classList.remove('exit-left', 'exit-right', 'is-active');
-next.classList.add(direction === 'next' ? 'enter-right' : 'enter-left');
-void next.offsetWidth;
-requestAnimationFrame(() => {
-next.classList.remove('enter-right', 'enter-left');
-next.classList.add('is-active');
-});
-setTimeout(() => {
-old.classList.remove('exit-left', 'exit-right');
-}, 700);
-current = nextIndex;
-updateDots();
+function goTo(index) {
+current = ((index % slides.length) + slides.length) % slides.length;
+render();
 }
-
-function next() {
-goTo((current + 1) % slides.length, 'next');
-}
-function prev() {
-goTo((current - 1 + slides.length) % slides.length, 'prev');
-}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
 
 function startAutoplay() {
 stopAutoplay();
@@ -420,10 +410,7 @@ if (autoplayTimer) clearInterval(autoplayTimer);
 if (nextBtn) nextBtn.addEventListener('click', () => { next(); startAutoplay(); });
 if (prevBtn) prevBtn.addEventListener('click', () => { prev(); startAutoplay(); });
 dots.forEach((dot, i) => {
-dot.addEventListener('click', () => {
-goTo(i, i > current ? 'next' : 'prev');
-startAutoplay();
-});
+dot.addEventListener('click', () => { goTo(i); startAutoplay(); });
 });
 
 carousel.addEventListener('mouseenter', stopAutoplay);
@@ -442,6 +429,6 @@ startAutoplay();
 startX = null;
 });
 
-updateDots();
+render();
 startAutoplay();
 })();
