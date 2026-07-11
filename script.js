@@ -365,3 +365,83 @@ formNote.textContent = 'Opening your email client...';
 }
 });
 }
+
+
+// Highlights carousel — fancy directional slide + fade + scale transitions
+(function () {
+const carousel = document.getElementById('highlightsCarousel');
+if (!carousel) return;
+const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+const dots = Array.from(carousel.querySelectorAll('.carousel-dot'));
+const prevBtn = document.getElementById('carouselPrev');
+const nextBtn = document.getElementById('carouselNext');
+let current = 0;
+let autoplayTimer = null;
+
+function updateDots() {
+dots.forEach((dot, i) => dot.classList.toggle('is-active', i === current));
+}
+
+function goTo(nextIndex, direction) {
+if (nextIndex === current) return;
+const old = slides[current];
+const next = slides[nextIndex];
+old.classList.remove('is-active');
+old.classList.add(direction === 'next' ? 'exit-left' : 'exit-right');
+next.classList.remove('exit-left', 'exit-right', 'is-active');
+next.classList.add(direction === 'next' ? 'enter-right' : 'enter-left');
+void next.offsetWidth;
+requestAnimationFrame(() => {
+next.classList.remove('enter-right', 'enter-left');
+next.classList.add('is-active');
+});
+setTimeout(() => {
+old.classList.remove('exit-left', 'exit-right');
+}, 700);
+current = nextIndex;
+updateDots();
+}
+
+function next() {
+goTo((current + 1) % slides.length, 'next');
+}
+function prev() {
+goTo((current - 1 + slides.length) % slides.length, 'prev');
+}
+
+function startAutoplay() {
+stopAutoplay();
+autoplayTimer = setInterval(next, 4500);
+}
+function stopAutoplay() {
+if (autoplayTimer) clearInterval(autoplayTimer);
+}
+
+if (nextBtn) nextBtn.addEventListener('click', () => { next(); startAutoplay(); });
+if (prevBtn) prevBtn.addEventListener('click', () => { prev(); startAutoplay(); });
+dots.forEach((dot, i) => {
+dot.addEventListener('click', () => {
+goTo(i, i > current ? 'next' : 'prev');
+startAutoplay();
+});
+});
+
+carousel.addEventListener('mouseenter', stopAutoplay);
+carousel.addEventListener('mouseleave', startAutoplay);
+
+// Swipe support
+let startX = null;
+carousel.addEventListener('pointerdown', (e) => { startX = e.clientX; });
+carousel.addEventListener('pointerup', (e) => {
+if (startX === null) return;
+const dx = e.clientX - startX;
+if (Math.abs(dx) > 50) {
+if (dx < 0) { next(); } else { prev(); }
+startAutoplay();
+}
+startX = null;
+});
+
+updateDots();
+startAutoplay();
+})();
