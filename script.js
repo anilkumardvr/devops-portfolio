@@ -9,10 +9,26 @@ setTimeout(() => loader.classList.add('loaded'), 400);
 // Nav toggle
 const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
+const navActivePill = document.getElementById('navActivePill');
+
+function positionActivePill() {
+if (!navActivePill || !navMenu) return;
+const activeLink = navMenu.querySelector('a.active');
+if (activeLink) {
+navActivePill.style.height = activeLink.offsetHeight + 'px';
+navActivePill.style.transform = 'translateY(' + activeLink.offsetTop + 'px)';
+navActivePill.style.opacity = '1';
+} else {
+navActivePill.style.opacity = '0';
+}
+}
 
 if (navToggle && navMenu) {
 navToggle.addEventListener('click', () => {
 navMenu.classList.toggle('open');
+if (navMenu.classList.contains('open')) {
+requestAnimationFrame(positionActivePill);
+}
 });
 }
 
@@ -22,7 +38,7 @@ let soundEnabled = localStorage.getItem('portfolioSound') !== 'off';
 function updateSoundIcon() {
 if (!soundToggle) return;
 const icon = soundToggle.querySelector('.sound-icon');
-if (icon) icon.textContent = soundEnabled ? '\u{1F50A}' : '\u{1F507}';
+if (icon) icon.textContent = soundEnabled ? '🔊' : '🔇';
 soundToggle.setAttribute('aria-pressed', String(soundEnabled));
 }
 updateSoundIcon();
@@ -178,8 +194,7 @@ statObserver.unobserve(entry.target);
 });
 }, { threshold: 0.6 });
 document.querySelectorAll('.stat-num').forEach((el) => statObserver.observe(el));
-
-// Scroll progress bar, nav hide/show, hero parallax, active nav link, timeline progress
+// Scroll progress bar, nav hide/show, hero parallax, active nav link, timeline progress, back-to-top
 const progressBar = document.getElementById('scrollProgress');
 const pillNav = document.getElementById('pillNav');
 const heroTitle = document.querySelector('.hero-title');
@@ -188,6 +203,7 @@ const sections = document.querySelectorAll('section[id], header[id]');
 const navLinks = document.querySelectorAll('.pill-nav-menu a[href^="#"]');
 const timelineEl = document.querySelector('.timeline');
 const timelineProgress = document.getElementById('timelineProgress');
+const backToTop = document.getElementById('backToTop');
 
 let lastScroll = window.scrollY;
 
@@ -233,6 +249,7 @@ current = sec.getAttribute('id');
 navLinks.forEach((link) => {
 link.classList.toggle('active', link.getAttribute('href') === '#' + current);
 });
+positionActivePill();
 }
 
 function updateTimelineProgress() {
@@ -244,6 +261,11 @@ const pct = Math.min(Math.max(visible / rect.height, 0), 1) * 100;
 timelineProgress.style.height = pct + '%';
 }
 
+function updateBackToTop() {
+if (!backToTop) return;
+backToTop.classList.toggle('is-visible', window.scrollY > 600);
+}
+
 let ticking = false;
 window.addEventListener('scroll', () => {
 if (!ticking) {
@@ -253,6 +275,7 @@ handleNavScroll();
 handleParallax();
 setActiveLink();
 updateTimelineProgress();
+updateBackToTop();
 ticking = false;
 });
 ticking = true;
@@ -263,6 +286,14 @@ updateProgress();
 handleParallax();
 setActiveLink();
 updateTimelineProgress();
+updateBackToTop();
+
+if (backToTop) {
+backToTop.addEventListener('click', () => {
+playTransitionSound();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+}
 
 // Cursor glow + cursor dot follow mouse with easing
 const cursorGlow = document.getElementById('cursorGlow');
@@ -302,7 +333,6 @@ el.addEventListener('mouseleave', () => {
 if (cursorGlow) cursorGlow.classList.remove('cursor-glow--active');
 });
 });
-
 // 3D tilt effect on service, project, skill and social cards
 document.querySelectorAll('.project-card, .service-card, .skill-category, .github-card, .linkedin-card, .repo-chip').forEach((card) => {
 card.addEventListener('mousemove', (e) => {
@@ -321,7 +351,7 @@ card.style.transform = '';
 });
 
 // Magnetic hover effect on buttons and links
-document.querySelectorAll('.cta-link, .contact-form button, .contact-links a').forEach((btn) => {
+document.querySelectorAll('.cta-link, .contact-form button, .contact-links a, .back-to-top').forEach((btn) => {
 btn.addEventListener('mousemove', (e) => {
 const rect = btn.getBoundingClientRect();
 const x = e.clientX - rect.left - rect.width / 2;
@@ -334,7 +364,7 @@ btn.style.transform = '';
 });
 
 // Ripple effect on button and link clicks
-document.querySelectorAll('.contact-form button, .cta-link, .contact-links a').forEach((btn) => {
+document.querySelectorAll('.contact-form button, .cta-link, .contact-links a, .back-to-top').forEach((btn) => {
 btn.addEventListener('click', function (e) {
 const ripple = document.createElement('span');
 ripple.className = 'ripple';
@@ -365,8 +395,6 @@ formNote.textContent = 'Opening your email client...';
 }
 });
 }
-
-
 // Highlights carousel — fancy fade + scale + directional slide transitions (fully re-synced each call, cannot get stuck)
 (function () {
 const carousel = document.getElementById('highlightsCarousel');
@@ -375,14 +403,22 @@ const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
 const dots = Array.from(carousel.querySelectorAll('.carousel-dot'));
 const prevBtn = document.getElementById('carouselPrev');
 const nextBtn = document.getElementById('carouselNext');
+const progress = document.getElementById('carouselProgress');
 let current = 0;
 let autoplayTimer = null;
+const AUTOPLAY_MS = 4500;
 
 function render() {
 slides.forEach((slide, i) => {
 if (i === current) {
 slide.classList.add('is-active');
 slide.style.transform = '';
+const icon = slide.querySelector('.carousel-icon');
+if (icon) {
+icon.classList.remove('icon-pop');
+void icon.offsetWidth;
+icon.classList.add('icon-pop');
+}
 } else {
 slide.classList.remove('is-active');
 const offset = i > current ? 70 : -70;
@@ -399,12 +435,29 @@ render();
 function next() { goTo(current + 1); }
 function prev() { goTo(current - 1); }
 
+function startProgress() {
+if (!progress) return;
+progress.style.transition = 'none';
+progress.style.width = '0%';
+void progress.offsetWidth;
+progress.style.transition = 'width ' + AUTOPLAY_MS + 'ms linear';
+progress.style.width = '100%';
+}
+function stopProgress() {
+if (!progress) return;
+const computed = getComputedStyle(progress).width;
+progress.style.transition = 'none';
+progress.style.width = computed;
+}
+
 function startAutoplay() {
 stopAutoplay();
-autoplayTimer = setInterval(next, 4500);
+startProgress();
+autoplayTimer = setInterval(next, AUTOPLAY_MS);
 }
 function stopAutoplay() {
 if (autoplayTimer) clearInterval(autoplayTimer);
+stopProgress();
 }
 
 if (nextBtn) nextBtn.addEventListener('click', () => { next(); startAutoplay(); });
