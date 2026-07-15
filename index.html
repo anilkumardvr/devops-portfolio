@@ -19,6 +19,9 @@
 <div class="transition-overlay" id="transitionOverlay" aria-hidden="true">
 <span></span><span></span><span></span><span></span><span></span>
 </div>
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+<span aria-hidden="true">&#8593;</span>
+</button>
 
 <nav class="pill-nav" id="pillNav">
 <div class="pill-nav-inner">
@@ -31,6 +34,7 @@
 </button>
 </div>
 <div class="pill-nav-menu" id="navMenu">
+<span class="nav-active-pill" id="navActivePill" aria-hidden="true"></span>
 <a href="#about">About</a>
 <a href="#experience">Experience</a>
 <a href="#skills">Skills</a>
@@ -121,9 +125,9 @@
 <button class="carousel-dot" data-index="3" aria-label="Go to slide 4"></button>
 <button class="carousel-dot" data-index="4" aria-label="Go to slide 5"></button>
 </div>
+<div class="carousel-progress" id="carouselProgress"></div>
 </div>
 </section>
-
 <section class="experience reveal" id="experience">
 <h2 class="section-label">Experience</h2>
 <div class="timeline">
@@ -251,7 +255,6 @@
 </div>
 </div>
 </section>
-
 <section class="projects reveal" id="projects">
 <h2 class="section-label">Featured Projects</h2>
 <div class="projects-grid">
