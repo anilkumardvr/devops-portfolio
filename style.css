@@ -556,3 +556,33 @@ transform: scale(1.1); animation: heroKenBurns 26s ease-in-out infinite alternat
 @media (prefers-reduced-motion: reduce) {
 .hero-bg-photo { animation: none; }
 }
+
+
+/* ===== Hero atmosphere: drifting cloud particles + section accent ===== */
+.hero-clouds { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+.cloud-particle {
+position: absolute; border-radius: 50%;
+background: radial-gradient(circle, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 72%);
+filter: blur(3px); mix-blend-mode: screen; opacity: 0;
+animation: cloudDrift linear infinite;
+}
+.cloud-particle.c1 { width: 160px; height: 70px; top: 14%; left: -14%; animation-duration: 36s; animation-delay: 0s; }
+.cloud-particle.c2 { width: 100px; height: 46px; top: 30%; left: -20%; animation-duration: 46s; animation-delay: 8s; }
+.cloud-particle.c3 { width: 200px; height: 90px; top: 55%; left: -22%; animation-duration: 40s; animation-delay: 4s; }
+.cloud-particle.c4 { width: 80px; height: 36px; top: 68%; left: -12%; animation-duration: 30s; animation-delay: 14s; }
+.cloud-particle.c5 { width: 130px; height: 58px; top: 8%; left: -18%; animation-duration: 50s; animation-delay: 20s; }
+@keyframes cloudDrift {
+0% { transform: translateX(0) translateY(0); opacity: 0; }
+8% { opacity: 0.5; }
+92% { opacity: 0.35; }
+100% { transform: translateX(135vw) translateY(-14px); opacity: 0; }
+}
+.section-label { position: relative; }
+.section-label::after {
+content: ''; display: block; width: 46px; height: 3px; margin: 10px auto 0;
+background: linear-gradient(90deg, #2f6fed, #7ec8ff); border-radius: 999px;
+box-shadow: 0 0 12px rgba(64,150,255,0.55);
+}
+@media (prefers-reduced-motion: reduce) {
+.cloud-particle { animation: none; opacity: 0; }
+}
