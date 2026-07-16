@@ -199,6 +199,7 @@ const progressBar = document.getElementById('scrollProgress');
 const pillNav = document.getElementById('pillNav');
 const heroTitle = document.querySelector('.hero-title');
 const heroMeta = document.querySelector('.hero-meta');
+const heroBgPhoto = document.querySelector('.hero-bg-photo');
 const sections = document.querySelectorAll('section[id], header[id]');
 const navLinks = document.querySelectorAll('.pill-nav-menu a[href^="#"]');
 const timelineEl = document.querySelector('.timeline');
@@ -235,6 +236,9 @@ heroTitle.style.transform = 'translateY(' + Math.min(y * 0.18, 120) + 'px)';
 }
 if (heroMeta) {
 heroMeta.style.opacity = String(Math.max(1 - y / 250, 0));
+}
+if (heroBgPhoto) {
+heroBgPhoto.style.backgroundPosition = 'center ' + Math.min(38 + y * 0.03, 62) + '%';
 }
 }
 
