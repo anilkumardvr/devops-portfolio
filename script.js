@@ -351,7 +351,6 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 
 document.addEventListener("DOMContentLoaded", () => {
   renderCapabilities();
-  renderArchitecturePanelDefault();
   renderCaseStudies();
   renderTimeline();
   renderPrinciples();
@@ -365,7 +364,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initContactForm();
 });
 
-/* ---------- render: capability matrix ---------- */
 function renderCapabilities(){
   const grid = document.getElementById("capabilityGrid");
   if(!grid) return;
@@ -391,7 +389,6 @@ function renderCapabilities(){
   `).join("");
 }
 
-/* ---------- render: case studies ---------- */
 function renderCaseStudies(){
   const list = document.getElementById("caseList");
   if(!list) return;
@@ -418,7 +415,6 @@ function renderCaseStudies(){
   });
 }
 
-/* ---------- render: timeline ---------- */
 function renderTimeline(){
   const el = document.getElementById("timelineList");
   if(!el) return;
@@ -446,7 +442,6 @@ function renderTimeline(){
   });
 }
 
-/* ---------- render: principles ---------- */
 function renderPrinciples(){
   const grid = document.getElementById("principlesGrid");
   if(!grid) return;
@@ -458,12 +453,6 @@ function renderPrinciples(){
   `).join("");
 }
 
-/* ---------- architecture default panel ---------- */
-function renderArchitecturePanelDefault(){
-  /* placeholder already in HTML; nothing to do until a node is clicked */
-}
-
-/* ---------- nav: active section + mobile toggle ---------- */
 function initNav(){
   const toggle = document.getElementById("navToggle");
   const menu = document.getElementById("navModules");
@@ -490,7 +479,6 @@ function initNav(){
   sections.forEach(s => obs.observe(s));
 }
 
-/* ---------- command palette ---------- */
 function initCommandPalette(){
   const palette = document.getElementById("commandPalette");
   const trigger = document.getElementById("cpTrigger");
@@ -523,8 +511,8 @@ function initCommandPalette(){
   function open(){
     palette.hidden = false;
     input.value = "";
-    renderResults(commands);
     activeIndex = -1;
+    renderResults(commands);
     setTimeout(() => input.focus(), 0);
     document.addEventListener("keydown", onKeydown);
   }
@@ -552,10 +540,6 @@ function initCommandPalette(){
       const cmd = filtered[activeIndex] || filtered[0];
       if(cmd){ cmd.action(); close(); }
     }
-    if(e.key === "Tab"){
-      const focusables = palette.querySelectorAll("input, li");
-      if(focusables.length){ e.preventDefault(); }
-    }
   }
 
   input.addEventListener("input", () => {
@@ -576,7 +560,6 @@ function initCommandPalette(){
   });
 }
 
-/* ---------- scroll progress ---------- */
 function initScrollProgress(){
   const bar = document.getElementById("scrollProgress");
   if(!bar) return;
@@ -593,7 +576,6 @@ function initScrollProgress(){
   });
 }
 
-/* ---------- back to top ---------- */
 function initBackToTop(){
   const btn = document.getElementById("backToTop");
   if(!btn) return;
@@ -603,7 +585,6 @@ function initBackToTop(){
   btn.addEventListener("click", () => window.scrollTo({top:0, behavior: prefersReducedMotion ? "auto" : "smooth"}));
 }
 
-/* ---------- reveal on scroll ---------- */
 function initReveal(){
   const items = document.querySelectorAll(".reveal");
   if(!("IntersectionObserver" in window)){
@@ -621,7 +602,6 @@ function initReveal(){
   items.forEach(i => obs.observe(i));
 }
 
-/* ---------- architecture diagram interactions ---------- */
 function initArchitectureInteractions(){
   const svg = document.getElementById("pipelineDiagram");
   const panel = document.getElementById("architecturePanel");
@@ -667,7 +647,6 @@ function initArchitectureInteractions(){
   }
 }
 
-/* ---------- hero animation sequence ---------- */
 function initHeroSequence(){
   const hero = document.querySelector(".hero");
   const terminal = document.getElementById("terminalBody");
@@ -698,13 +677,11 @@ function initHeroSequence(){
       return;
     }
     let li = 0, ci = 0;
-    let out = "";
     function step(){
       if(li >= lines.length) return;
       const line = lines[li];
       if(ci <= line.length){
-        out = lines.slice(0,li).join("\n") + (li>0 ? "\n" : "") + line.slice(0,ci);
-        terminal.textContent = out;
+        terminal.textContent = lines.slice(0,li).join("\n") + (li>0 ? "\n" : "") + line.slice(0,ci);
         ci++;
         setTimeout(step, 14);
       } else {
@@ -721,7 +698,6 @@ function initHeroSequence(){
   });
 }
 
-/* ---------- contact form (static site: mailto fallback) ---------- */
 function initContactForm(){
   const form = document.getElementById("contactForm");
   const note = document.getElementById("formNote");
@@ -747,8 +723,7 @@ function initContactForm(){
       "Opportunity Type: " + opportunity + "\n\n" +
       message
     );
-    const mailto = "mailto:anilkumardevandla21@gmail.com?subject=" + subject + "&body=" + body;
-    window.location.href = mailto;
+    window.location.href = "mailto:anilkumardevandla21@gmail.com?subject=" + subject + "&body=" + body;
     note.textContent = "Connection established. Message delivered without requiring a rollback.";
     form.reset();
   });
