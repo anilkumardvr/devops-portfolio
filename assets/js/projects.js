@@ -182,6 +182,50 @@ var caseStudies = [
   }
 ];
 
+var missionMeta = [
+{ number: "01", status: "OPERATIONAL", art: "migration", panels: [
+{ label: "01 THE PROBLEM", text: "On-prem Kubernetes workloads needed to move to AKS without disrupting existing services, storage, or networking assumptions." },
+{ label: "02 THE PLAN", text: "Re-map manifests to AKS-native constructs, redesign persistent storage, and validate Calico CNI networking before cutover." },
+{ label: "03 THE DEPLOYMENT", text: "Workloads migrated in phases by namespace and validated against on-prem behavior, with node pools separated by workload type." },
+{ label: "04 THE RESULT", text: "Workloads run on AKS with equivalent networking and storage guarantees to the on-prem environment." }
+] },
+{ number: "02", status: "OPERATIONAL", art: "vault", panels: [
+{ label: "01 THE PROBLEM", text: "Stateful middleware needed to run reliably and securely inside AKS instead of on legacy VMs." },
+{ label: "02 THE PLAN", text: "Containerize each component with persistent storage, Key Vault-backed secrets, and namespace isolation between stateful and stateless workloads." },
+{ label: "03 THE DEPLOYMENT", text: "StatefulSets for stable network identity, Workload Identity for pod-to-Azure authentication, and Helm releases versioned per component." },
+{ label: "04 THE RESULT", text: "Middleware runs on AKS with secured secret handling and persistent storage instead of manual VM-based configuration." }
+] },
+{ number: "03", status: "OPERATIONAL", art: "identity", panels: [
+{ label: "01 THE PROBLEM", text: "Applications stored credentials directly in manifests or environment variables, creating avoidable exposure risk." },
+{ label: "02 THE PLAN", text: "Integrate Azure Key Vault and Workload Identity so pods retrieve secrets at runtime instead of storing them." },
+{ label: "03 THE DEPLOYMENT", text: "OIDC federation to Azure AD and a SecretProviderClass mounting secrets in memory, rolled out namespace by namespace." },
+{ label: "04 THE RESULT", text: "Workloads retrieve secrets without storing application credentials in Kubernetes manifests." }
+] },
+{ number: "04", status: "OPERATIONAL", art: "pipeline", panels: [
+{ label: "01 THE PROBLEM", text: "Manual, inconsistent deployment steps across environments slowed releases and increased risk." },
+{ label: "02 THE PLAN", text: "Build reusable Terraform modules and standardized CI/CD pipelines with environment approval gates." },
+{ label: "03 THE DEPLOYMENT", text: "A plan-review-apply Terraform workflow paired with standardized GitHub Actions and Azure DevOps pipeline templates." },
+{ label: "04 THE RESULT", text: "Deployments follow a consistent, auditable path across environments rather than ad hoc manual steps." }
+] },
+{ number: "05", status: "OPERATIONAL", art: "radar", panels: [
+{ label: "01 THE PROBLEM", text: "Without centralized observability, issues were often discovered through user reports rather than proactive monitoring." },
+{ label: "02 THE PLAN", text: "Build metrics, logs, and alerting tied to SLIs, plus a tested backup and disaster-recovery path." },
+{ label: "03 THE DEPLOYMENT", text: "Prometheus, Grafana, and Elasticsearch dashboards paired with scheduled Velero backups and restore testing." },
+{ label: "04 THE RESULT", text: "Operational visibility and a tested backup and DR path where previously there was limited proactive monitoring." }
+] }
+];
+
+function missionIllustration(key){
+var arts = {
+migration: '<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of on-premises server racks migrating into an Azure Kubernetes Service cloud environment"><rect x="16" y="64" width="46" height="100" rx="3" fill="#1a1b1e" stroke="#4b5058"/><line x1="16" y1="82" x2="62" y2="82" stroke="#4b5058"/><line x1="16" y1="100" x2="62" y2="100" stroke="#4b5058"/><line x1="16" y1="118" x2="62" y2="118" stroke="#4b5058"/><line x1="16" y1="136" x2="62" y2="136" stroke="#4b5058"/><circle cx="24" cy="91" r="2" fill="#ff3040"/><circle cx="24" cy="109" r="2" fill="#e2a542"/><circle cx="24" cy="127" r="2" fill="#4caf6d"/><rect x="70" y="90" width="34" height="74" rx="3" fill="#15161a" stroke="#3a3d42"/><path d="M112,110 L156,110" stroke="#ff3040" stroke-width="2" marker-end="url(#arrM)"/><defs><marker id="arrM" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#ff3040"/></marker></defs><path d="M210,70 a28,28 0 0,1 8,55 h-70 a24,24 0 0,1 -4,-47 a20,20 0 0,1 36,-16 a26,26 0 0,1 30,8 Z" fill="#151a20" stroke="#3b82c4" stroke-width="1.4"/><polygon points="230,95 246,104 246,122 230,131 214,122 214,104" fill="#0d0e10" stroke="#ff3040" stroke-width="1.4"/><text x="230" y="116" text-anchor="middle" font-family="monospace" font-size="9" fill="#ff9aa0">AKS</text></svg>',
+vault: '<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a secure middleware platform: a central shield protecting messaging, search, and storage nodes"><path d="M160,26 L206,44 V96 C206,132 186,156 160,168 C134,156 114,132 114,96 V44 Z" fill="#15161a" stroke="#ff3040" stroke-width="1.6"/><rect x="146" y="82" width="28" height="22" rx="3" fill="#0d0e10" stroke="#ff3040"/><circle cx="160" cy="90" r="4" fill="#ff3040"/><line x1="160" y1="94" x2="160" y2="100" stroke="#ff3040" stroke-width="2"/><path d="M150,66 a10,10 0 0,1 20,0" fill="none" stroke="#e2a542" stroke-width="3"/><circle cx="54" cy="60" r="18" fill="#101216" stroke="#4b5058"/><text x="54" y="64" text-anchor="middle" font-family="monospace" font-size="8" fill="#a8a4a0">MQ</text><circle cx="46" cy="140" r="18" fill="#101216" stroke="#4b5058"/><text x="46" y="144" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#a8a4a0">SRCH</text><circle cx="266" cy="60" r="18" fill="#101216" stroke="#4b5058"/><text x="266" y="64" text-anchor="middle" font-family="monospace" font-size="8" fill="#a8a4a0">DB</text><circle cx="272" cy="140" r="18" fill="#101216" stroke="#4b5058"/><text x="272" y="144" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#a8a4a0">OBJ</text><line x1="70" y1="66" x2="120" y2="80" stroke="#3a3d42"/><line x1="60" y1="128" x2="118" y2="102" stroke="#3a3d42"/><line x1="250" y1="66" x2="200" y2="80" stroke="#3a3d42"/><line x1="256" y1="128" x2="202" y2="102" stroke="#3a3d42"/></svg>',
+identity: '<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of secretless workload authentication: a workload retrieving a credential through a key vault instead of storing it"><rect x="30" y="60" width="70" height="80" rx="6" fill="#15161a" stroke="#4b5058"/><path d="M65,80 a14,14 0 1,1 0.1,0 M65,94 v14 M58,108 h14" stroke="#e2a542" stroke-width="3" fill="none" stroke-linecap="round"/><text x="65" y="132" text-anchor="middle" font-family="monospace" font-size="8" fill="#a8a4a0">VAULT</text><path d="M108,100 L200,100" stroke="#ff3040" stroke-width="2" stroke-dasharray="5 5"/><circle cx="150" cy="100" r="5" fill="#ff3040"><animate attributeName="cx" values="115;195;115" dur="3.2s" repeatCount="indefinite"/></circle><rect x="210" y="66" width="66" height="68" rx="6" fill="#101216" stroke="#3b82c4"/><rect x="228" y="86" width="30" height="24" rx="3" fill="#0d0e10" stroke="#4caf6d"/><path d="M233,98 l5,5 l9,-11" stroke="#4caf6d" stroke-width="2" fill="none"/><text x="243" y="122" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#a8a4a0">POD</text></svg>',
+pipeline: '<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of an automated delivery pipeline moving an artifact from commit to deployment"><line x1="30" y1="110" x2="290" y2="110" stroke="#3a3d42" stroke-width="3"/><circle cx="40" cy="110" r="16" fill="#101216" stroke="#4b5058"/><text x="40" y="140" text-anchor="middle" font-family="monospace" font-size="8" fill="#a8a4a0">GIT</text><circle cx="120" cy="110" r="16" fill="#101216" stroke="#4b5058"/><text x="120" y="140" text-anchor="middle" font-family="monospace" font-size="8" fill="#a8a4a0">BUILD</text><circle cx="200" cy="110" r="16" fill="#101216" stroke="#4b5058"/><text x="200" y="140" text-anchor="middle" font-family="monospace" font-size="8" fill="#a8a4a0">TEST</text><circle cx="280" cy="110" r="18" fill="#101216" stroke="#ff3040" stroke-width="1.6"/><text x="280" y="140" text-anchor="middle" font-family="monospace" font-size="8" fill="#ff9aa0">DEPLOY</text><rect x="30" y="100" width="18" height="20" rx="4" fill="#ff3040"><animate attributeName="x" values="30;270;30" dur="4s" repeatCount="indefinite"/></rect></svg>',
+radar: '<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of an observability radar sweep detecting system health across a platform"><circle cx="160" cy="90" r="60" fill="none" stroke="#3a3d42"/><circle cx="160" cy="90" r="40" fill="none" stroke="#3a3d42"/><circle cx="160" cy="90" r="20" fill="none" stroke="#3a3d42"/><line x1="160" y1="30" x2="160" y2="150" stroke="#2a2d31"/><line x1="100" y1="90" x2="220" y2="90" stroke="#2a2d31"/><path d="M160,90 L160,30 A60,60 0 0,1 212,60 Z" fill="rgba(255,48,64,.18)"><animateTransform attributeName="transform" type="rotate" from="0 160 90" to="360 160 90" dur="4s" repeatCount="indefinite"/></path><circle cx="185" cy="65" r="4" fill="#ff3040"/><circle cx="130" cy="115" r="3.5" fill="#e2a542"/><circle cx="150" cy="55" r="3" fill="#4caf6d"/><path d="M40,175 h30 l8,-14 l8,20 l8,-30 l8,24 h50" fill="none" stroke="#4caf6d" stroke-width="2"/></svg>'
+};
+return arts[key] || "";
+}
+
 var timelineData = [
   {
     mission: "Platform Modernization",
@@ -256,35 +300,51 @@ function renderCapabilities(){
 }
 
 function renderCaseStudies(){
-  var list = document.getElementById("caseList");
-  if(!list) return;
-  var html = "";
-  for(var i=0;i<caseStudies.length;i++){
-    var c = caseStudies[i];
-    var fieldsHtml = "";
-    for(var j=0;j<c.fields.length;j++){
-      fieldsHtml += '<div class="case-field"><h4>' + c.fields[j][0] + '</h4><p>' + c.fields[j][1] + '</p></div>';
-    }
-    html += '<article class="case-study">' +
-      '<button class="case-header" aria-expanded="false" data-case-toggle="' + i + '">' +
-      '<span class="case-tag">' + c.tag + '</span>' +
-      '<span class="case-title">' + c.title + '</span>' +
-      '<span class="capability-caret" aria-hidden="true">&#8250;</span>' +
-      '</button>' +
-      '<p class="case-summary">' + c.summary + '</p>' +
-      '<div class="case-body" id="case-body-' + i + '" hidden>' + fieldsHtml + '</div>' +
-      '</article>';
-  }
-  list.innerHTML = html;
-  var toggles = list.querySelectorAll("[data-case-toggle]");
-  for(var k=0;k<toggles.length;k++){
-    toggles[k].addEventListener("click", function(){
-      var body = document.getElementById("case-body-" + this.dataset.caseToggle);
-      var expanded = this.getAttribute("aria-expanded") === "true";
-      this.setAttribute("aria-expanded", String(!expanded));
-      body.hidden = expanded;
-    });
-  }
+var list = document.getElementById("caseList");
+if(!list) return;
+var html = "";
+for(var i=0;i<caseStudies.length;i++){
+var c = caseStudies[i];
+var m = missionMeta[i] || {};
+var fieldsHtml = "";
+for(var j=0;j<c.fields.length;j++){
+fieldsHtml += '<div class="case-field"><h4>' + c.fields[j][0] + '</h4><p>' + c.fields[j][1] + '</p></div>';
+}
+var panelsHtml = "";
+if(m.panels){
+for(var p=0;p<m.panels.length;p++){
+panelsHtml += '<div class="mpanel"><span class="mpanel-label">' + m.panels[p].label + '</span><p>' + m.panels[p].text + '</p></div>';
+}
+}
+html += '<article class="mission-dossier" data-mission="' + (i+1) + '">' +
+'<div class="mission-bgnum" aria-hidden="true">' + m.number + '</div>' +
+'<div class="mission-head">' +
+'<span class="mission-number">MISSION ' + m.number + '</span>' +
+'<h3 class="mission-title">' + c.title + '</h3>' +
+'<span class="mission-status"><span class="status-blip" aria-hidden="true"></span>STATUS: ' + m.status + '</span>' +
+'</div>' +
+'<div class="mission-body">' +
+'<div class="mission-story">' +
+'<p class="mission-summary">' + c.summary + '</p>' +
+'<div class="mission-panels">' + panelsHtml + '</div>' +
+'<button class="mission-report-toggle" aria-expanded="false" data-case-toggle="' + i + '">Open Full Mission Report</button>' +
+'<div class="case-body mission-report" id="case-body-' + i + '" hidden>' + fieldsHtml + '</div>' +
+'</div>' +
+'<div class="mission-illustration">' + missionIllustration(m.art) + '</div>' +
+'</div>' +
+'</article>';
+}
+list.innerHTML = html;
+var toggles = list.querySelectorAll("[data-case-toggle]");
+for(var k=0;k<toggles.length;k++){
+toggles[k].addEventListener("click", function(){
+var body = document.getElementById("case-body-" + this.dataset.caseToggle);
+var expanded = this.getAttribute("aria-expanded") === "true";
+this.setAttribute("aria-expanded", String(!expanded));
+body.hidden = expanded;
+this.textContent = expanded ? "Open Full Mission Report" : "Hide Full Mission Report";
+});
+}
 }
 
 function renderTimeline(){
