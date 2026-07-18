@@ -1,0 +1,19 @@
+@media (max-width:920px){
+.hero-columns{grid-template-columns:1fr;}
+.hero-visual{order:-1;max-width:320px;margin:0 auto 1rem;}
+.dossier-body{grid-template-columns:1fr;}
+.console-body{grid-template-columns:1fr;}
+.nav-modules{position:fixed;top:60px;left:0;right:0;background:var(--background-secondary);flex-direction:column;padding:1rem 1.4rem;border-bottom:1px solid var(--border-subtle);display:none;gap:.9rem;}
+.nav-modules.is-open{display:flex;}
+.nav-toggle{display:flex;}
+.cp-trigger-label{display:none;}
+.architecture-svg{min-width:640px;}
+}
+@media (max-width:640px){
+.hero-name{font-size:2.2rem;}
+.dossier-capabilities{grid-template-columns:1fr;}
+main section{padding:var(--space-5) 1rem;}
+.case-header,.capability-head{flex-wrap:wrap;}
+.console-links{gap:.6rem;}
+.architecture-svg{min-width:560px;}
+}
