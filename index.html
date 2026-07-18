@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#070707" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/reset.css" />
 <link rel="stylesheet" href="assets/css/tokens.css" />
 <link rel="stylesheet" href="assets/css/layout.css" />
@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="assets/css/antihero-theme.css" />
 <link rel="stylesheet" href="assets/css/animations.css" />
 <link rel="stylesheet" href="assets/css/responsive.css" />
+<link rel="stylesheet" href="assets/css/cinematic.css" />
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Anil Kumar Devandla","jobTitle":"Senior DevOps & Cloud Platform Engineer","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"email":"mailto:anilkumardevandla21@gmail.com","sameAs":["https://www.linkedin.com/in/anilkumardevandla/","https://github.com/anilkumardvr"]}
 </script>
@@ -55,6 +56,7 @@
 <a href="#contact" data-nav="contact">Contact</a>
 </nav>
 <div class="nav-actions">
+<div class="nav-mission-progress" aria-hidden="true"><span class="nmp-label">MISSION PROGRESS</span><span class="nmp-count" id="nmpCount">01 / 07</span><span class="nmp-track"><span class="nmp-fill" id="nmpFill"></span></span></div>
 <button class="cp-trigger" id="cpTrigger" type="button" aria-label="Open command palette">
 <span class="cp-trigger-label">Search</span><kbd>&#8984;K</kbd>
 </button>
@@ -71,6 +73,10 @@
 <div class="hero-grid" aria-hidden="true"></div>
 <div class="hero-noise" aria-hidden="true"></div>
 <div class="hero-particles" aria-hidden="true"></div>
+<div class="hero-intro-overlay" id="heroIntroOverlay" aria-hidden="true"><pre class="intro-flicker">BOOT ops-console v2.7
+auth: pending...
+link: establishing...</pre><div class="intro-sweep"></div></div>
+<div class="hero-bg-scene" aria-hidden="true"><div class="hero-bg-towers"></div><div class="hero-bg-haze"></div></div>
 <div class="hero-columns">
 <div class="hero-copy">
 <div class="hero-status"><span class="status-dot" aria-hidden="true"></span>Toronto, Ontario, Canada &middot; Open to senior remote opportunities</div>
@@ -91,7 +97,8 @@
 <pre class="terminal-body" id="terminalBody"></pre>
 </div>
 </div>
-<div class="hero-visual" aria-hidden="true">
+</div>
+<div class="hero-visual hero-mid-scene" aria-hidden="true">
 <svg id="heroPipeline" class="hero-pipeline-svg" viewBox="0 0 470 620" xmlns="http://www.w3.org/2000/svg" role="presentation">
 <g class="hp-grid" stroke="#3a1114" stroke-width="1" opacity="0.5">
 <line x1="0" y1="60" x2="470" y2="60"/><line x1="0" y1="160" x2="470" y2="160"/><line x1="0" y1="260" x2="470" y2="260"/><line x1="0" y1="360" x2="470" y2="360"/><line x1="0" y1="460" x2="470" y2="460"/><line x1="0" y1="560" x2="470" y2="560"/>
@@ -113,6 +120,11 @@
 <g class="hp-node" data-step="8" transform="translate(320,550)"><circle r="26" class="hp-node-circle"/><text class="hp-node-label" y="44">MONITORING</text></g>
 </svg>
 </div>
+<div class="hero-fg-scene" aria-hidden="true">
+<img class="mascot-hero" src="assets/svg/mascot.svg" alt="" />
+<span class="hero-alert-chip hero-alert-1">DEPLOY QUEUED</span>
+<span class="hero-alert-chip hero-alert-2">SECURITY: CLEAR</span>
+<span class="hero-alert-chip hero-alert-3">NODES: HEALTHY</span>
 </div>
 <a href="#about" class="scroll-cue" aria-label="Scroll to content"><span></span></a>
 </section>
@@ -171,6 +183,7 @@
 <h3 class="architecture-block-title">Commit-to-Production Delivery Flow</h3>
 <p class="sr-only">Diagram summary for screen readers: Developer commits to the Git Repository, which triggers the CI Pipeline, then Testing, then Security Gates. The artifact moves to the Container Registry, then the GitOps Controller, which deploys to Kubernetes on AKS. Traffic enters through the Application Gateway to Services, which are observed by Monitoring and Alerting. Supporting systems include Terraform, Azure Key Vault, Helm, Prometheus/Grafana, and Automated Rollback.</p>
 <div class="architecture-wrap">
+<span class="architecture-inspect">Inspect System</span>
 <svg id="pipelineDiagram" class="architecture-svg" viewBox="0 0 1000 460" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Interactive architecture diagram from commit to production">
 <g class="arch-support">
 <path d="M120,120 L120,60 L860,60 L860,120"/>
@@ -209,6 +222,7 @@
 <div class="architecture-panel" id="architecturePanel" role="region" aria-live="polite">
 <p class="architecture-panel-placeholder">Select a node above to inspect its design.</p>
 </div>
+<div class="architecture-legend"><span><i class="legend-active"></i>Selected node</span><span><i class="legend-support"></i>Supporting system</span><span><i class="legend-k8s"></i>Kubernetes / AKS</span></div>
 <p class="architecture-quote">&ldquo;A successful deployment is not the end of the pipeline. It is the beginning of operations.&rdquo;</p>
 <p class="architecture-annotation">This is also where interesting bugs like to introduce themselves.</p>
 </div>
@@ -217,6 +231,7 @@
 <h3 class="architecture-block-title">Secure Middleware Platform on AKS</h3>
 <p class="sr-only">Diagram summary for screen readers: Application Workloads call Internal Kubernetes Services, which front six middleware components: RabbitMQ, ActiveMQ Artemis, Memcached, Elasticsearch, MinIO, and Couchbase. These write to Persistent Storage. Azure Key Vault, Workload Identity, and SecretProviderClass supply secrets to the services layer. Private Networking keeps this traffic off the public internet, and Monitoring and Health Checks observe every component.</p>
 <div class="architecture-wrap">
+<span class="architecture-inspect">Inspect System</span>
 <svg id="middlewarePipeline" class="architecture-svg" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Interactive architecture diagram of the secure middleware platform on AKS">
 <g class="arch-support">
 <path d="M110,430 L110,80 L500,80"/>
@@ -259,6 +274,7 @@
 <div class="architecture-panel" id="middlewarePanel" role="region" aria-live="polite">
 <p class="architecture-panel-placeholder">Select a node above to inspect its design.</p>
 </div>
+<div class="architecture-legend"><span><i class="legend-active"></i>Selected node</span><span><i class="legend-support"></i>Supporting system</span><span><i class="legend-k8s"></i>Internal Kubernetes Services</span></div>
 </div>
 </section>
 
@@ -295,6 +311,7 @@
 <h2 class="section-title">Let&rsquo;s Build Something Reliable</h2>
 <p class="section-lede">I am interested in senior DevOps, cloud platform, Kubernetes, infrastructure automation, and platform engineering opportunities.</p>
 </div>
+<img class="contact-mascot" src="assets/svg/mascot.svg" alt="" aria-hidden="true" />
 <div class="console-body">
 <div class="console-links">
 <a href="mailto:anilkumardevandla21@gmail.com" class="console-link"><span class="console-link-label">Email</span><span class="console-link-value">anilkumardevandla21@gmail.com</span></a>
@@ -334,6 +351,7 @@
 
 <script src="assets/js/projects.js"></script>
 <script src="assets/js/architecture.js"></script>
+<script src="assets/js/cinematic.js"></script>
 <script src="assets/js/navigation.js"></script>
 <script src="assets/js/command-palette.js"></script>
 <script src="assets/js/effects.js"></script>
