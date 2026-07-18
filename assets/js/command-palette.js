@@ -21,7 +21,7 @@ function initCommandPalette(){
     { label: "Open GitHub profile", hint: "external", action: function(){ window.open("https://github.com/anilkumardvr","_blank","noopener"); } },
     { label: "Open LinkedIn profile", hint: "external", action: function(){ window.open("https://www.linkedin.com/in/anilkumardevandla/","_blank","noopener"); } },
     { label: "Email Anil", hint: "mailto", action: function(){ window.location.href = "mailto:anilkumardevandla21@gmail.com"; } },
-    { label: "Download resume (publishing soon)", hint: "disabled", action: function(){} }
+    { label: "Download résumé", hint: "download", action: function(){ window.open("assets/Anilkumar-D-Resume.pdf", "_blank", "noopener"); } }
   ];
 
   var activeIndex = -1;
