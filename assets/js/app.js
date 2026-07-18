@@ -18,7 +18,22 @@ document.addEventListener("DOMContentLoaded", function(){
   initScrollProgress();
   initBackToTop();
   initReveal();
+  fixDirectHashLoad();
 });
+
+/* Dynamic content (capability grid, case studies, timeline, principles) is inserted above
+   several anchor targets after the browser's initial fragment scroll already happened, so a
+   direct link like /#projects or /#contact can land in the wrong place. Re-apply the scroll
+   once, after render, so direct hash loading is reliable. */
+function fixDirectHashLoad(){
+  if(!location.hash) return;
+  var target;
+  try { target = document.querySelector(location.hash); } catch(e){ return; }
+  if(!target) return;
+  requestAnimationFrame(function(){
+    target.scrollIntoView({ behavior: "auto", block: "start" });
+  });
+}
 
 function initScrollProgress(){
   var bar = document.getElementById("scrollProgress");
