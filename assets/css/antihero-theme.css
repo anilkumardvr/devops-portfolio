@@ -1,0 +1,38 @@
+/* antihero-theme.css — original red/black cinematic tactical texture layer (no third-party character IP) */
+.hero{background:radial-gradient(ellipse at 30% 0%,rgba(114,11,17,0.35),transparent 55%),var(--background-primary);}
+.hero-grid{background-image:linear-gradient(var(--border-subtle) 1px,transparent 1px),linear-gradient(90deg,var(--border-subtle) 1px,transparent 1px);mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent);opacity:.5;}
+.hero-noise{background-image:radial-gradient(circle,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:3px 3px;opacity:.5;}
+.hp-path{stroke-dasharray:6 300;stroke-dashoffset:300;transition:stroke-dashoffset 1s var(--ease),stroke var(--dur-med);}
+.hero.is-live .hp-path{stroke-dashoffset:0;stroke:var(--red-primary);}
+.hp-node-circle{fill:var(--surface-elevated);stroke:var(--red-line);stroke-width:2;transition:stroke var(--dur-med),fill var(--dur-med);}
+.hero.is-live .hp-node.is-active .hp-node-circle{stroke:var(--red-bright);fill:var(--red-deep);filter:drop-shadow(0 0 10px rgba(255,48,64,0.7));}
+.hp-node-k8s{stroke-width:3;}
+.hp-node-label{fill:var(--text-secondary);}
+/* Scratched / distressed diagonal texture used sparingly on dossier + console panels */
+.dossier::before,.console::before{content:'';position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(135deg,rgba(215,25,32,0.05) 0 2px,transparent 2px 6px);pointer-events:none;}
+.console{position:relative;}
+/* Tactical corner brackets used on elevated panels to suggest a HUD / targeting readout */
+.hero-terminal{position:relative;}
+.hero-terminal::before,.hero-terminal::after{content:'';position:absolute;width:10px;height:10px;border-color:var(--red-bright);opacity:.6;}
+.hero-terminal::before{top:-1px;left:-1px;border-top:2px solid;border-left:2px solid;}
+.hero-terminal::after{bottom:-1px;right:-1px;border-bottom:2px solid;border-right:2px solid;}
+/* Blade-cut divider: an abstract, original crossed-bars motif (not a weapon illustration) used between major sections */
+.blade-divider svg line{stroke:var(--red-line);stroke-width:1.5;}
+.blade-divider svg .blade-accent{stroke:var(--red-bright);stroke-width:2;filter:drop-shadow(0 0 4px rgba(255,48,64,0.5));}
+/* Architecture node health states: colour is always paired with a text label, never colour-only */
+.arch-node-health{fill:var(--success);}
+.arch-node-health.is-alert{fill:var(--red-bright);}
+.architecture.is-live .arch-main path{stroke-dashoffset:0;}
+.arch-main path{stroke-dasharray:6 260;stroke-dashoffset:260;transition:stroke-dashoffset 1.2s var(--ease);}
+.arch-main{stroke:#7a2026;stroke-width:2.5;fill:none;}
+.arch-support{opacity:.55;stroke:#5c1a1f;stroke-width:1.5;fill:none;}
+/* Section kicker glow — small tactical readout label above each mission-style heading */
+.section-kicker{position:relative;padding-left:1rem;}
+.section-kicker::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:6px;background:var(--red-bright);border-radius:1px;box-shadow:0 0 6px var(--red-bright);}
+/* Hero particle canvas sits behind copy, above grid */
+.hero-particles{opacity:.6;}
+/* Capability icon tint */
+.capability-icon{color:var(--red-bright);}
+/* Dossier handwritten-style note (original wording only, no third-party quotes) */
+.dossier-note{border-left:2px solid var(--red-bright);color:var(--text-secondary);font-family:var(--font-mono);}
+@media (max-width:640px){.hero-particles{display:none;}}
