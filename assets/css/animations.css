@@ -1,0 +1,21 @@
+@keyframes blink{50%{opacity:0;}}
+.nav-brand-dot{animation:blink 1.4s steps(1) infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+.status-dot{animation:pulse 2s infinite;}
+@keyframes scrollcue{0%{top:6px;opacity:1;}80%{top:18px;opacity:0;}100%{opacity:0;}}
+.scroll-cue span{animation:scrollcue 1.6s infinite;}
+.reveal{transition:opacity .8s var(--ease),transform .8s var(--ease);}
+@keyframes emberDrift{0%{transform:translateY(0) translateX(0);opacity:0;}10%{opacity:.8;}100%{transform:translateY(-140px) translateX(12px);opacity:0;}}
+.hero-particles .ember{animation:emberDrift 4.5s ease-in infinite;}
+@keyframes sectionSlash{from{clip-path:polygon(0 0,0 0,0 100%,0 100%);}to{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}}
+.reveal.is-visible .blade-slash{animation:sectionSlash .6s var(--ease) forwards;}
+/* Global reduced-motion override: disables all non-essential motion regardless of which component defines it */
+@media (prefers-reduced-motion:reduce){
+*,*::before,*::after{
+animation-duration:0.01ms !important;
+animation-iteration-count:1 !important;
+transition-duration:0.01ms !important;
+scroll-behavior:auto !important;
+}
+.hero-particles{display:none !important;}
+}
