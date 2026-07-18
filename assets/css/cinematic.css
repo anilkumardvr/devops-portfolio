@@ -136,3 +136,11 @@ body{background:var(--ink);}
 .dossier{border:1px solid rgba(215,25,32,.14);background:radial-gradient(ellipse at 90% 0%,rgba(215,25,32,.06),transparent 55%),var(--surface-primary);}
 .timeline{border-left:2px solid var(--border-red);position:relative;}
 .timeline::before{content:'';position:absolute;left:-2px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--red-bright),transparent);}
+
+/* ---- composition fix: keep hero copy legible above the busy midground/mascot ---- */
+.hero-copy{position:relative;padding-right:1rem;}
+.hero-copy::before{content:'';position:absolute;top:-2.5rem;bottom:-2.5rem;left:-3rem;right:-2rem;background:linear-gradient(100deg,rgba(6,4,3,.94) 0%,rgba(6,4,3,.86) 45%,rgba(6,4,3,.5) 72%,transparent 96%);z-index:-1;pointer-events:none;}
+.hero-mid-scene{right:-6vw;top:13vh;width:min(34vw,420px);opacity:.55;}
+.hero-fg-scene{width:min(27vw,310px);right:0.5vw;bottom:0;}
+@media (max-width:1080px){.hero-mid-scene{display:none;}.hero-fg-scene{width:min(38vw,300px);}}
+@media (max-width:760px){.hero-copy::before{display:none;}}
